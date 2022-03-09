@@ -5,7 +5,7 @@ function Pokecard({pokemon1, pokemonSprite1}){
     return(
         <div className="pokeCard"> 
                 <h3>{"#"+pokemon1.id+" "+ pokemon1.name.english} </h3>
-                    <img src={pokemon1.sprite.front_default} alt="Pokemon 2"/>
+                    <img src={pokemon1.sprite.other["official-artwork"].front_default} alt="Pokemon 2"/>
                     <table className="cardtable">
                     <tbody>
                         <tr>

@@ -8,6 +8,7 @@ import Fightscreen from "./components/Fightscreen";
 import Selector from "./components/Selector";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import PokeSelector from './components/PokeSelector';
 
 
 function App() {
@@ -28,12 +29,13 @@ function App() {
     for(let i =1;i<810;i++){
     let urlSprite="https://pokeapi.co/api/v2/pokemon/"+String(i);
     let resSprite = await axios.get(urlSprite);
-    arr.push(resSprite.data.sprites.front_default)
+    arr.push(resSprite.data.sprites)
+    
     }
     setSpriteArr(arr);
+    console.log(arr)
     let url = "https://pokefight-by-jnp.herokuapp.com/pokemon";
     let response = await axios.get(url);
-    console.log(response.data);
     setPokeDex(response.data);
     
 }
@@ -54,6 +56,7 @@ function App() {
             base:resPokemon1.data.base,
             sprite:resSprite1.data.sprites
         });
+        console.log(pokemon1)
     setPokemon2(
         {
             id:resPokemon2.data.id,
@@ -76,10 +79,12 @@ function App() {
       </header>
       <Routes>
           <Route path="/pokemon/:id/:info" element={<PokemonDetails/>} />
-          <Route path="/pokemon/:id" element={<Pokemon/>} />
+          <Route path="/pokemon/:id" element={<Pokemon setPokemon1={setPokemon1} setPokemon2={setPokemon2}/>} />
           <Route path="/pokemon" element={<PokeList pokeDex={pokeDex} spriteArr={spriteArr}/>}/>
+          <Route path="/pick/1" element={<PokeSelector pokeDex={pokeDex} spriteArr={spriteArr} setPokemon1={setPokemon1} setPokemon2={setPokemon2} pokeNr={1}/>}/>
+          <Route path="/pick/2" element={<PokeSelector pokeDex={pokeDex} spriteArr={spriteArr} setPokemon1={setPokemon1} setPokemon2={setPokemon2} pokeNr={2}/>}/>
           <Route path="/leaderboard" element ={<Leaderboard/>}/>
-          <Route path ="/fight" element ={<Fightscreen pokemon1={pokemon1} pokemon2={pokemon2}/>}/>
+          <Route path ="/fight" element ={<Fightscreen pokemon1={pokemon1} pokemon2={pokemon2} setPokemon1={setPokemon1} setPokemon2={setPokemon2}/>}/>
           <Route path="/" element={<Selector pokemon1={pokemon1} pokemon2={pokemon2} random={random}/>} />
       </Routes>
  

@@ -3,8 +3,9 @@ import axios from "axios";
 import { useParams, useNavigate} from "react-router-dom";
 import Pokecard from "./Pokecard";
 
-function Pokemon(){
+function Pokemon(props){
     const [pokemon ,setPokemon] = useState({id:0,name:{},type:[],base:{},sprite:{}});
+    let [count, setCount]= useState(1);
     const { id } = useParams();
     const navigate = useNavigate();
     function goHome(){
@@ -15,7 +16,22 @@ function Pokemon(){
         let path = "/pokemon";
         navigate(path)
     }
-    console.log(id)
+    // function chooseMe(){
+    //     console.log(count)
+    //     if(count%2 === 0){
+    //         props.setPokemon2(pokemon);
+    //         count++;
+    //         setCount(count)
+    //         console.log(count)
+    //     } else{
+    //         props.setPokemon1(pokemon);
+    //         count++;
+    //         setCount(count)
+    //         console.log(count)
+    //     }
+    //     let path = "/";
+    //     navigate(path)
+    // }
     async function getData(){
         const urlPokemon1 ="https://pokefight-by-jnp.herokuapp.com/pokemon/"+String(id);
         const urlSprite1="https://pokeapi.co/api/v2/pokemon/"+String(id);
@@ -32,7 +48,6 @@ function Pokemon(){
     }
     useEffect(()=>{
         getData();
-        console.log(pokemon);
     },[])
     return(
         <div>
@@ -43,8 +58,10 @@ function Pokemon(){
                     <p>Loading ...</p>
                 )}
             </div>
+            {/* <button className="buttons" onClick={chooseMe}>Choose Me</button> */}
             <button className="buttons" onClick={goHome}>Go Home</button>
             <button className="buttons" onClick={toList}>Back to List</button>
+            
         </div>
     );
 }

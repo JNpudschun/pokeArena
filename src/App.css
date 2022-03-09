@@ -20,7 +20,9 @@
 .selector{
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+  margin-left: 60px;
+  margin-right: 60px;
 }
 .pokeCard{
   display: flex;
@@ -34,7 +36,10 @@
   border-radius: 3px;
 }
 .pokeCard >img{
-  min-height: 150px;
+  max-height: 150px;
+}
+.pokeCard > table{
+  margin-bottom: 10px;
 }
 .vs{
   background-color: white;
@@ -81,4 +86,10 @@ td > img{
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.fightlog{
+  overflow: scroll;
+  resize: none;
+  height:300px;
+  width:300px;
 }

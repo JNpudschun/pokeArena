@@ -17,18 +17,31 @@ function Selector(props){
         props.random();
         e.preventDefault();
     }
+    function pickPokemon1(){
+        let path = "/pick/1"
+        navigate(path)
+    }
+    function pickPokemon2(){
+        let path = "/pick/2"
+        navigate(path)
+    }
    
     return(
         <div>
             <h2>Pick your Fighters</h2>
             {JSON.stringify(props.pokemon1.sprite).length > 2 && JSON.stringify(props.pokemon2.sprite).length > 2  ?
             (<div className="selector">
-                <Pokecard pokemon1={props.pokemon1} />
+                <div>
+                    <Pokecard pokemon1={props.pokemon1} />
+                    <button onClick={pickPokemon1}>Pick Pokemon</button>
+                </div>
                 <div>
                     <p className="vs">VS.</p>
                 </div>
-                <Pokecard pokemon1={props.pokemon2} />
-                
+                <div>
+                    <Pokecard pokemon1={props.pokemon2} />
+                    <button onClick={pickPokemon2}>Pick Pokemon</button>
+                </div>
             </div>) : (<p>Loading ...</p>)}
             <div className="buttonRow">
                     <button onClick={onClick} className="buttons">New Random Pokemon</button>
