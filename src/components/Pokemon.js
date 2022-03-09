@@ -1,18 +1,34 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams} from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
+import Pokecard from "./Pokecard";
 
 function Pokemon(){
-    const [pokemon , setPokemon] = useState({});
+    const [pokemon ,setPokemon] = useState({id:0,name:{},type:[],base:{},sprite:{}});
     const { id } = useParams();
+    const navigate = useNavigate();
+    function goHome(){
+        let path = "/";
+        navigate(path)
+    }
+    function toList(){
+        let path = "/pokemon";
+        navigate(path)
+    }
     console.log(id)
     async function getData(){
-        let url = "https://pokefight-by-jnp.herokuapp.com/pokemon/"+String(id);
-        console.log(url);
-        let response = await axios.get(url);
-        console.log(response.data);
-        setPokemon(response.data);
-        console.log(JSON.stringify(pokemon).length);
+        const urlPokemon1 ="https://pokefight-by-jnp.herokuapp.com/pokemon/"+String(id);
+        const urlSprite1="https://pokeapi.co/api/v2/pokemon/"+String(id);
+        let resPokemon = await axios.get(urlPokemon1);
+        let resSprite = await axios.get(urlSprite1);
+        setPokemon(
+            {
+                id:resPokemon.data.id,
+                name:resPokemon.data.name,
+                type:resPokemon.data.type,
+                base:resPokemon.data.base,
+                sprite:resSprite.data.sprites
+            });
     }
     useEffect(()=>{
         getData();
@@ -20,36 +36,15 @@ function Pokemon(){
     },[])
     return(
         <div>
-            {JSON.stringify(pokemon).length > 2 ? 
-            (<div>
-                <h2>{"#"+pokemon.id+" "+ pokemon.name.english} </h2>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Type:</td>
-                            <td>{pokemon.type}</td>    
-                        </tr>
-                        <tr>
-                            <td>HP:</td>
-                            <td>{pokemon.base.HP}</td>    
-                        </tr>
-                        <tr>
-                            <td>Attack:</td>
-                            <td>{pokemon.base.Attack}</td>    
-                        </tr>
-                        <tr>
-                            <td>Defense:</td>
-                            <td>{pokemon.base.Defense}</td>    
-                        </tr>
-                        <tr>
-                            <td>Speed:</td>
-                            <td>{pokemon.base.Speed}</td>    
-                        </tr>
-                    </tbody>
-                </table>            
-            </div>) 
-            : (<h2>Fetching Pokemon</h2>)}
-
+            <div className="pokeWrap">
+                {JSON.stringify(pokemon.sprite).length > 2 ? (
+                    <Pokecard pokemon1={pokemon}/>
+                ):(
+                    <p>Loading ...</p>
+                )}
+            </div>
+            <button className="buttons" onClick={goHome}>Go Home</button>
+            <button className="buttons" onClick={toList}>Back to List</button>
         </div>
     );
 }

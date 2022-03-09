@@ -1,40 +1,52 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import {Link} from "react-router-dom"
+import React from "react";
+import {useNavigate} from "react-router-dom"
 
-function PokeList(){
-    const [pokeDex , setPokeDex] = useState([]);
-
-    async function getData(){
-        let url = "https://pokefight-by-jnp.herokuapp.com/pokemon";
-        let response = await axios.get(url);
-        console.log(response.data);
-        setPokeDex(response.data);
-       
+function PokeList(props){
+    const navigate = useNavigate();
+    
+    function goToPokemon(id){
+        let path = "/pokemon/"+String(id)
+        navigate(path)
     }
-    useEffect(()=>{
-        getData();
-    },[])
-    return(
-        <div>
-            {pokeDex ? 
-            (<ul>
-             {pokeDex.map(pokemon=>(
-                <li key={pokemon.id}>
-                    <Link to={"/pokemon/"+pokemon.id} >
-                        <label>{pokemon.id}</label>
-                        <label>{pokemon.name.english}</label>
-                        <label>{pokemon.type}</label>
-                        <label>{pokemon.base.HP}</label>
-                        <label>{pokemon.base.Attack}</label>
-                        <label>{pokemon.base.Defense}</label>
-                        <label>{pokemon.base.Speed}</label>
-                    </Link>
-                </li>
-             ))}   
-            </ul>) 
-            : (<h2>Fetching Pokemon</h2>)}
-
+    function goHome(){
+        let path = "/";
+        navigate(path)
+    }
+     return(
+        <div className="liste">
+          <table className="pokelist">
+                <thead>
+                    <tr>
+                        <td>Id</td>
+                        <td>Name</td>
+                        <td>Sprite</td>
+                        <td>Type</td>
+                        <td>HP</td>
+                        <td>Attack</td>
+                        <td>Defense</td>
+                        <td>Sp.Attack</td>
+                        <td>Sp.Defense</td>
+                        <td>Speed</td>
+                    </tr>
+                </thead>
+                <tbody>
+                {props.pokeDex.map((pokemon, index)=>(
+                    <tr key={pokemon.id} onClick={()=>goToPokemon(pokemon.id)}>
+                        <td>{pokemon.id}</td>
+                        <td>{pokemon.name.english}</td>
+                        <td><img src={props.spriteArr[index]} alt="sprite"/></td>
+                        <td>{pokemon.type[1] ? (pokemon.type[0] + ", "+ pokemon.type[1]):(pokemon.type[0])}</td>
+                        <td>{pokemon.base.HP}</td>
+                        <td>{pokemon.base.Attack}</td>
+                        <td>{pokemon.base.Defense}</td>
+                        <td>{pokemon.base['Sp. Attack']}</td>
+                        <td>{pokemon.base['Sp. Defense']}</td>
+                        <td>{pokemon.base.Speed}</td>
+                     </tr>
+                 ))}
+                </tbody>
+            </table>
+            <button className="buttons" onClick={goHome}>Go Home</button>
         </div>
     );
 }

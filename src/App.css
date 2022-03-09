@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  
+  height:100%;
 }
 
 .App-header {
@@ -15,4 +17,68 @@
 .App-link {
   color: #61dafb;
 }
+.selector{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.pokeCard{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width:250px;
+  margin: 20px;
+  background-color: white;
+  height: 400px;
+  border:3px solid black;
+  border-radius: 3px;
+}
+.pokeCard >img{
+  min-height: 150px;
+}
+.vs{
+  background-color: white;
+  padding:5px;
+}
+.buttonRow{
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+button{
+  margin:30px;
+}
+.liste table, .liste tr, .liste td {
+  border: 2px solid black;
+  border-collapse: collapse;
+}
+.pokelist > tbody {
+  background-color: #CEE0F3;
+}
+.pokelist > thead{
+  border-bottom: 3px solid black;
+  font-size: large;
+  font-weight: bold;
+  background-color: #414770;
+  color: white;
+}
 
+td > img{
+  max-height: 50px;
+}
+.pokelist{
+  width:80%;
+  margin-top: 30px;
+}
+.liste{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.pokeWrap{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
