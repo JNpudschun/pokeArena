@@ -11,6 +11,11 @@ function Selector(props){
     }
     function goList(){
         let path = "/pokemon"
+        props.getDB();
+        navigate(path)
+    }
+    function goBoard(){
+        let path = "/leaderboard"
         navigate(path)
     }
     function onClick(e){
@@ -47,6 +52,7 @@ function Selector(props){
                     <button onClick={onClick} className="buttons">New Random Pokemon</button>
                     <button className="buttons specialLink" onClick={goFight}>Go Fight</button>
                     <button className="buttons" onClick={goList}>to full List</button>
+                    <button className="buttons" onClick={goBoard}>See Leaderboard</button>
             </div>
         </div>
     );

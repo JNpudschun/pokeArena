@@ -17,7 +17,8 @@ function App() {
   const [pokemon1 ,setPokemon1] = useState({id:0,name:{},type:[],base:{},sprite:{}});
   const [pokemon2 ,setPokemon2] = useState({id:0,name:{},type:[],base:{},sprite:{}});
   const [pokeDex , setPokeDex] = useState([]);
-  const [spriteArr, setSpriteArr] = useState([])
+  const [spriteArr, setSpriteArr] = useState([]);
+  const [leaderList , setLeaderList] = useState([]);
 
   function random(){
     setId2(Math.floor(Math.random()*808)+1);
@@ -33,7 +34,6 @@ function App() {
     
     }
     setSpriteArr(arr);
-    console.log(arr)
     let url = "https://pokefight-by-jnp.herokuapp.com/pokemon";
     let response = await axios.get(url);
     setPokeDex(response.data);
@@ -56,7 +56,7 @@ function App() {
             base:resPokemon1.data.base,
             sprite:resSprite1.data.sprites
         });
-        console.log(pokemon1)
+       
     setPokemon2(
         {
             id:resPokemon2.data.id,
@@ -67,7 +67,30 @@ function App() {
         });
 
 }
+async function getDB(){
+  const url = "https://pokefight-by-jnp.herokuapp.com/leaderboard/";
+  let response = await axios.get(url);
+  let arr =[];
+  for(let i = 0; i< response.data.length;i++){
+      let temp = (response.data[i].wins *100)/(response.data[i].wins +response.data[i].losses);
+      // console.log(temp);
+      // console.log(response.data[i])
+
+      arr.push({
+          name: response.data[i].name,
+          wins: response.data[i].wins,
+          losses: response.data[i].losses,
+          winPer: temp   
+      })      
+  }
+  arr.sort((a,b)=>{
+    return b.winPer - a.winPer;
+  })
+  setLeaderList(arr);
+  console.log(arr);
+}
   useEffect(()=>{
+    getDB();
     getData();
     random();
     // getPokemon();
@@ -83,9 +106,9 @@ function App() {
           <Route path="/pokemon" element={<PokeList pokeDex={pokeDex} spriteArr={spriteArr}/>}/>
           <Route path="/pick/1" element={<PokeSelector pokeDex={pokeDex} spriteArr={spriteArr} setPokemon1={setPokemon1} setPokemon2={setPokemon2} pokeNr={1}/>}/>
           <Route path="/pick/2" element={<PokeSelector pokeDex={pokeDex} spriteArr={spriteArr} setPokemon1={setPokemon1} setPokemon2={setPokemon2} pokeNr={2}/>}/>
-          <Route path="/leaderboard" element ={<Leaderboard/>}/>
+          <Route path="/leaderboard" element ={<Leaderboard leaderList={leaderList}/>}/>
           <Route path ="/fight" element ={<Fightscreen pokemon1={pokemon1} pokemon2={pokemon2} setPokemon1={setPokemon1} setPokemon2={setPokemon2}/>}/>
-          <Route path="/" element={<Selector pokemon1={pokemon1} pokemon2={pokemon2} random={random}/>} />
+          <Route path="/" element={<Selector pokemon1={pokemon1} pokemon2={pokemon2} random={random} getDB={getDB}/>} />
       </Routes>
  
     </div>
