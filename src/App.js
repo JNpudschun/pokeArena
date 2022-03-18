@@ -37,7 +37,7 @@ function App() {
     let url = "https://pokefight-by-jnp.herokuapp.com/pokemon";
     let response = await axios.get(url);
     setPokeDex(response.data);
-    
+    console.log(response.data)
 }
   async function getPokemon(){
     const urlPokemon1 ="https://pokefight-by-jnp.herokuapp.com/pokemon/"+String(rnd1);
@@ -86,6 +86,12 @@ async function getDB(){
   arr.sort((a,b)=>{
     return b.winPer - a.winPer;
   })
+  // arr.sort((a,b)=>{
+  //   return b.wins - a.wins;
+  // })
+  // arr.sort((a,b)=>{
+  //   return b.losses - a.losses;
+  // })
   setLeaderList(arr);
   console.log(arr);
 }
